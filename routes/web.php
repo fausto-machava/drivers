@@ -27,7 +27,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-//Route::get('/', [ReciboController::class, 'index' ]);
+Route::get('/recibo', [ReciboController::class, 'index' ])->name('recibo');
 
 
 //Route::get('/', [UtilizadorController::class, 'admin']);

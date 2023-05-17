@@ -2,21 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Illuminate\Support\Facades\DB;
 
 class ReciboController extends Controller
 {
+    private $objCondutor;
+    public function __construct()
+    {
+        $this->objCondutor = new User();
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $pdf = pdf::loadView('welcome');
-         return $pdf->download('invoice.pdf');
+        $dados = DB::select('Select from users where id = ?', [$id]);
+         //$this->objCondutor->all()->where('id', '=', '?');
+        //$data['name'] = $this->$Condutores->name;
+        $pdf = pdf::loadView('recibo',compact('dados'));
+         return $pdf->download('recibos.pdf');
     }
 
     /**

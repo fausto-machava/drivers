@@ -34,6 +34,7 @@
                         <a href="#" class="btn btn-primary btnEditar"><i
                                 class="bi bi-pencil-square"></i></a>
                         <a href="#" class="btn btn-danger btnEliminar"><i class="bi bi-trash"></i></a>
+                        <a href="{{route('recibo')}}" class="btn btn-danger btnEliminar"><i class="bi bi-trash"></i></a>
                     </td>
                 </tr>
             @endforeach
