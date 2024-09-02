@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UtilizadorController extends Controller
 {
@@ -60,8 +61,13 @@ class UtilizadorController extends Controller
             $utilizador->nomePai = $request->input('nomePai');
             $utilizador->nomeMae = $request->input('nomeMae');
             $utilizador->morada = $request->input('morada');
+            $utilizador->email = $request->input('nrCarta').'@simulco.com';
+            $utilizador->password = Hash::make($request->input('nome').''.$request->input('nrCarta'));
             $utilizador->nivelAcesso = 'condutor';
             $utilizador->save();
+            $utilizador->password = $request->input('nome').''.$request->input('nrCarta');
+            $pdf = pdf::loadView('userData',compact('utilizador'));
+            return $pdf->download('utilizador.pdf');
             return redirect()->route('home')->with('mensagem', 'Condutor adicionado com sucesso!');
 
     }
@@ -72,7 +78,7 @@ class UtilizadorController extends Controller
         $utilizador = new User();
         $utilizador->name = 'administrador';
         $utilizador->email = 'admin@gmail.com';
-        $utilizador->nivelAcesso = 'Admin';
+        $utilizador->nivelAcesso = 'admin';
         $utilizador->password = Hash::make('1234');
         $utilizador->save();
         return redirect()->route('welcome');

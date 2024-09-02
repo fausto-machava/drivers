@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Multa;
 use App\Models\User;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class MultaController extends Controller
 {
@@ -24,7 +27,26 @@ class MultaController extends Controller
     {
 
         $Condutores = $this->objCondutor->all()->where('nivelAcesso', '=', 'condutor');
-        return view('multa',compact('Condutores'));
+        return view('multa', compact('Condutores'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexPay()
+    {
+
+        $multas = $this->objMultas->all()->where('condutor', '=', Auth::user()->name)->where('pagamento', '=', 0);
+        return view('pagar', compact('multas'));
+    }
+
+    public function indexPagamento(Request $request)
+    {
+        $codigo = $request->input('multa');
+        $multa = Multa::firstwhere('id', $codigo);
+        return view('pagamento', compact('multa'));
     }
 
     /**
@@ -34,9 +56,14 @@ class MultaController extends Controller
      */
     public function listaMultas()
     {
-        $Multas = $this->objMultas->all();;
-        return view('Multas', compact('Multas'));
+        if (Gate::allows('condutor')) {
+            $Multas = Multa::paginate(10)->where('condutor', '=', Auth::user()->name);
+        } else {
+            $Multas = Multa::paginate(10);
+        }
 
+        // return dump($Multas);
+        return view('Multas', compact('Multas'));
     }
 
     public function listaCondutores()
@@ -73,9 +100,10 @@ class MultaController extends Controller
         $utilizador->estado = $request->input('estado');
         $utilizador->local = $request->input('local');
         $utilizador->artigo = $request->input('artigo');
-        $utilizador->agente = $request->input('agente');
+        $utilizador->agente = Auth::user()->name;
         $utilizador->valor = $request->input('valor');
         $utilizador->detalhes = $request->input('detalhes');
+        $utilizador->pagamento = 0;
         $utilizador->save();
         return redirect()->route('home')->with('mensagem', 'Condutor adicionado com sucesso!');
     }
@@ -123,5 +151,13 @@ class MultaController extends Controller
     public function destroy(Multa $multa)
     {
         //
+    }
+
+    public function gerarQRCode($valor, $codigoMulta)
+    {
+        $conteudoQRCode = "Valor: R$ " . $valor . "\nCódigo da Multa: " . $codigoMulta;
+
+        return response(QrCode::format('png')->size(200)->generate($conteudoQRCode))
+            ->header('Content-Type', 'image/png');
     }
 }

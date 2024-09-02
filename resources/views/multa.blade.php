@@ -31,11 +31,6 @@
                         <input name="local" type="text" class="form-control" id="local-transgressao"
                             placeholder="Insira o local da transgressão">
                     </div>
-                    <div class="form-group">
-                        <label for="agente-actuante">Nome do agente actuante:</label>
-                        <input name="agente" type="text" class="form-control" id="agente-actuante"
-                            placeholder="Insira o nome do agente actuante">
-                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">

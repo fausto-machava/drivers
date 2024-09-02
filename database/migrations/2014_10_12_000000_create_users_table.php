@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('email')->unique()->nullable();
-            $table->string('nivelAcesso')->default("admin");
+            $table->string('nivelAcesso')->default("agente");
             $table->date('dataNasc')->nullable();
             $table->string('nrCarta')->nullable();
             $table->string('profissao')->nullable();

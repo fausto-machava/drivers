@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Multa;
 use App\Models\Reclamacao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReclamacaoController extends Controller
 {
 
     private $objMultas;
+    private $objReclamacoes;
     public function __construct()
     {
 
         $this->objMultas = new Multa();
+        $this->objReclamacoes = new Reclamacao();
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +28,27 @@ class ReclamacaoController extends Controller
     {
         $Multas = $this->objMultas->all();
         return view('reclamacao', compact('Multas'));
+    }
+
+    public function indexReclamacoes()
+    {
+        $reclamacoes = DB::table('reclamacaos')
+            ->join('multas', 'reclamacaos.multa', '=', 'multas.id')
+            ->select('multas.*', 'reclamacaos.reclamacao')
+            ->get();
+
+        return view('reclamacoes', compact('reclamacoes'));
+    }
+
+    public function historico()
+    {
+        $reclamacoesAgente = DB::table('multas')
+            ->join('reclamacaos', 'multas.id', '=', 'reclamacaos.multa')
+            ->select('multas.*', 'reclamacaos.reclamacao')
+            ->get();
 
 
+        return view('historico', compact('reclamacoesAgente'));
     }
 
     /**
@@ -46,9 +69,10 @@ class ReclamacaoController extends Controller
      */
     public function storeReclamacao(Request $request)
     {
-        $utilizador = new Reclamacao();
-        $utilizador->reclamacao = $request->input('reclamacao');
-        $utilizador->save();
+        $reclamacao = new Reclamacao();
+        $reclamacao->multa = $request->input('multa');
+        $reclamacao->reclamacao = $request->input('reclamacao');
+        $reclamacao->save();
         return redirect()->route('home')->with('mensagem', 'Reclamacao adicionada com sucesso!');
     }
 

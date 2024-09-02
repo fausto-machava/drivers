@@ -116,39 +116,57 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
+                @if (Gate::allows('agente'))
+                    <a class="nav-link" href="{{ route('condutor') }}" data-target="#collapseTwo" aria-expanded="true"
+                        aria-controls="collapseTwo">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Condutor</span>
+                    </a>
+                    <a class="nav-link" href="{{ route('listaCondutores') }}" data-target="#collapseTwo"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="bi bi-list-ul"></i>
+                        <span>Lista de condutores</span>
+                    </a>
+                    <a class="nav-link" href="{{ route('multa') }}" data-target="#collapseTwo" aria-expanded="true"
+                        aria-controls="collapseTwo">
+                        <i class="bi bi-cash"></i>
+                        <span>Multa</span>
+                    </a>
+                @endif
 
-                <a class="nav-link" href="{{ route('condutor') }}" data-target="#collapseTwo" aria-expanded="true"
-                    aria-controls="collapseTwo">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Condutor</span>
-                </a>
-                <a class="nav-link" href="{{ route('listaCondutores') }}" data-target="#collapseTwo" aria-expanded="true"
-                    aria-controls="collapseTwo">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Lista de condutores</span>
-                </a>
-                <a class="nav-link" href="{{ route('multa') }}" data-target="#collapseTwo" aria-expanded="true"
-                    aria-controls="collapseTwo">
-                    <i class="bi bi-person"></i>
-                    <span>Multa</span>
-                </a>
-
+                @if (Gate::allows('condutor') || Gate::allows('agente'))
                 <a class="nav-link" href="{{ route('listaMultas') }}" data-target="#collapseTwo" aria-expanded="true"
-                    aria-controls="collapseTwo">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Lista de Multas</span>
-                </a>
+                aria-controls="collapseTwo">
+                <i class="bi bi-list-ul"></i>
+                <span>Lista de Multas</span>
+            </a>
+                @endif
 
-                <a class="nav-link " href="" data-target="#collapseTwo" aria-expanded="true"
-                    aria-controls="collapseTwo">
-                    <i class="bi bi-truck"></i>
-                    <span>Factura</span>
-                </a>
-                <a class="nav-link " href="{{ route('reclamacao') }}" data-target="#collapseTwo" aria-expanded="true"
-                    aria-controls="collapseTwo">
-                    <i class="bi bi-slash-circle"></i>
-                    <span>Reclamacoes</span>
-                </a>
+                @if (Gate::allows('condutor'))
+                    <a class="nav-link " href="{{ route('multaPay') }}" data-target="#collapseTwo" aria-expanded="true"
+                        aria-controls="collapseTwo">
+                        <i class="bi bi-cash"></i>
+                        <span>Pagar</span>
+                    </a>
+                    <a class="nav-link " href="{{ route('reclamacao') }}" data-target="#collapseTwo" aria-expanded="true"
+                        aria-controls="collapseTwo">
+                        <i class="bi bi-exclamation-circle-fill"></i>
+                        <span>Reclamacao</span>
+                    </a>
+                @endif
+                @if (Gate::allows('admin'))
+                    <a class="nav-link " href="{{ route('reclamacoes') }}" data-target="#collapseTwo" aria-expanded="true"
+                        aria-controls="collapseTwo">
+                        <i class="bi bi-list-ul"></i>
+                        <span>Reclamacoes</span>
+                    </a>
+
+                    <a class="nav-link " href="{{ route('historico') }}" data-target="#collapseTwo" aria-expanded="true"
+                        aria-controls="collapseTwo">
+                        <i class="bi bi-clock-history"></i>
+                        <span>Historico</span>
+                    </a>
+                @endif
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -170,12 +188,12 @@
             <div id="content">
 
 
-                {{-- @if (session('mensagem'))
+                @if (session('mensagem'))
                     <div class="alert alert-success alert-dismissible fade show ml-4 me-4" role="alert">
                         {{ session('mensagem') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                @endif --}}
+                @endif
                 <div class="p-4">
                     @yield('conteudo')
                 </div>

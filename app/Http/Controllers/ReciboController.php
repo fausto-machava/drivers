@@ -21,11 +21,12 @@ class ReciboController extends Controller
      */
     public function index($id)
     {
-        $dados = DB::select('Select from users where id = ?', [$id]);
+       // $dados = DB::select('Select from users where id = ?', [$id]);
+        $dados = DB::table('multas')->get()->where('id', '=', $id)->first();
          //$this->objCondutor->all()->where('id', '=', '?');
         //$data['name'] = $this->$Condutores->name;
         $pdf = pdf::loadView('recibo',compact('dados'));
-         return $pdf->download('recibos.pdf');
+        return $pdf->download('recibos.pdf');
     }
 
     /**

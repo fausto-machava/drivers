@@ -27,10 +27,10 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/recibo', [ReciboController::class, 'index' ])->name('recibo');
+Route::get('/recibo{id}', [ReciboController::class, 'index' ])->name('recibo');
 
 
-//Route::get('/', [UtilizadorController::class, 'admin']);
+Route::get('/admin', [UtilizadorController::class, 'admin']);
 Route::get('addAgente', [UtilizadorController::class, 'storeAgente']);
 Route::get('login', [AuthController::class, 'login']);
 Route::get('logout', [AuthController::class, 'logout']);
@@ -49,5 +49,14 @@ Route::post('/addReclamacao', [ReclamacaoController::class, 'storeReclamacao'])-
 
 Route::get('/multa', [MultaController::class, 'index'])->name('multa');
 Route::get('/ListaMultas', [MultaController::class, 'listaMultas'])->name('listaMultas');
+Route::get('/multaPay', [MultaController::class, 'indexPay'])->name('multaPay');
+Route::post('/pagePagamento', [MultaController::class, 'indexPagamento'])->name('pagePagamento');
+
 
 Route::get('/reclamacao', [ReclamacaoController::class, 'index'])->name('reclamacao');
+Route::get('/reclamacoes', [ReclamacaoController::class, 'indexReclamacoes'])->name('reclamacoes');
+Route::get('/historico', [ReclamacaoController::class, 'historico'])->name('historico');
+
+
+Route::get('/qrcode/{valor}/{codigoMulta}', [MultaController::class,'gerarQRCode'])->name('gerarQrCode');
+

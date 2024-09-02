@@ -50,26 +50,16 @@
 <body>
   <div class="container">
     <h1>POLÍCIA DA REPÚPLICA DE MOÇAMBIQUE DEPARTAMENTO DA PT MAPUTO - CIDADE</h1>
-    <form>
-        <h1>Dados da Base de Dados</h1>
+    <p>
+        Foi avisado {{ $dados->condutor }} que foi actuado na {{ $dados->local }} com veiculo
+        {{ $dados->matricula }} com a multa de {{ $dados->valor }} MT por haver transgredido o Artigo {{ $dados->artigo }}
+        e que devera satisfazer no prazo de quinze(15) dias na tesouraria do Departamento de transito
+        ou Apresentar reclamacao no INATRO.
+    </p>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Coluna 1</th>
+    <p>Data: {{ $dados->data }}</p>
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($dados as $dado)
-                <tr>
-                    <td>{{ $dado->name }}</td>
-
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </form>
+    <p>O agente actuante: {{ $dados->agente }}</p>
   </div>
 </body>
 </html>

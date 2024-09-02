@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('reclamacaos', function (Blueprint $table) {
             $table->id();
+            $table->integer('multa');
             $table->string('reclamacao');
             $table->timestamps();
         });

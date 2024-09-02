@@ -23,9 +23,11 @@ return new class extends Migration
             $table->string('estado');
             $table->string('local');
             $table->string('artigo');
+            $table->string('codigo_multa')->unique();
             $table->string('agente');
             $table->bigInteger('valor');
             $table->string('detalhes');
+            $table->tinyInteger('pagamento');
             $table->timestamps();
         });
     }

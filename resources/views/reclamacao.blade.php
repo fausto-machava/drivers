@@ -8,17 +8,17 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label for="multa">Multa:</label>
-                    <select class="form-control" id="multa">
+                    <select name="multa" class="form-control" id="multa">
                         <option>Selecione a Multa</option>
                         @foreach ($Multas as $multa)
 
-                        <option value="{{ $multa->artigo }}">{{ $multa->artigo }}</option>
+                        <option value="{{ $multa->id }}">{{ $multa->codigo_multa }}</option>
                     @endforeach
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="reclamacao">Reclamação:</label>
-                    <textarea class="form-control" id="reclamacao" rows="5"></textarea>
+                    <textarea name="reclamacao" class="form-control" id="reclamacao" rows="5"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </form>
